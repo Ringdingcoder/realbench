@@ -1,0 +1,458 @@
+For reference, this is the relevant output of the disassembly from the DOS
+binary using wdis (i.e. what I used to create block.asm):
+
+Comdat: void __near std::fill<char unsigned __near * __near,char unsigned __near >( char unsigned __near *, char unsigned __near *, char unsigned const __near & ) SEGMENT ANY '_TEXT' 00000010 bytes
+0000				void __near std::fill<char unsigned __near * __near,char unsigned __near >( char unsigned __near *, char unsigned __near *, char unsigned const __near & ):
+0000  56				push		si
+0001  89 C6				mov		si,ax
+0003				L$105:
+0003  39 D6				cmp		si,dx
+0005  74 07				je		L$106
+0007  8A 07				mov		al,[bx]
+0009  88 04				mov		[si],al
+000B  46				inc		si
+000C  EB F5				jmp		L$105
+000E				L$106:
+000E  5E				pop		si
+000F  C3				ret
+
+Routine Size: 16 bytes,    Routine Base: W?fill$::1NPNUC1NUC:std$N(PNUCPNUCRNXUC)V + 0000
+
+No disassembly errors
+
+Comdat: void __near picosha2::detail::hash256_block<long unsigned __near * __near,char unsigned __near * __near >( long unsigned __near *, char unsigned __near *, char unsigned __near * ) SEGMENT ANY '_TEXT' 00000448 bytes
+0000				void __near picosha2::detail::hash256_block<long unsigned __near * __near,char unsigned __near * __near >( long unsigned __near *, char unsigned __near *, char unsigned __near * ):
+0000  51				push		cx
+0001  56				push		si
+0002  57				push		di
+0003  55				push		bp
+0004  89 E5				mov		bp,sp
+0006  81 EC 4C 01			sub		sp,0x014c
+000A  50				push		ax
+000B  52				push		dx
+000C  89 D0				mov		ax,dx
+000E  05 40 00				add		ax,0x0040
+0011  39 D8				cmp		ax,bx
+0013  74 0F				je		L$107
+0015  B9 64 00				mov		cx,0x0064
+0018  BB 18 00				mov		bx,offset DGROUP:L$12
+001B  BA 23 00				mov		dx,offset DGROUP:L$13
+001E  B8 56 00				mov		ax,offset DGROUP:L$14
+0021  E8 00 00				call		_assert99_
+0024				L$107:
+0024  31 C0				xor		ax,ax
+0026  89 46 B4				mov		-0x4c[bp],ax
+0029  89 46 B6				mov		-0x4a[bp],ax
+002C  8D 5E B4				lea		bx,-0x4c[bp]
+002F  8D 56 B4				lea		dx,-0x4c[bp]
+0032  8D 86 B4 FE			lea		ax,-0x14c[bp]
+0036  E8 00 00				call		void __near std::fill<long unsigned __near * __near,long unsigned __near >( long unsigned __near *, long unsigned __near *, long unsigned const __near & )
+0039  31 FF				xor		di,di
+003B				L$108:
+003B  89 FE				mov		si,di
+003D  D1 E6				shl		si,0x01
+003F  D1 E6				shl		si,0x01
+0041  8B 9E B0 FE			mov		bx,-0x150[bp]
+0045  01 F3				add		bx,si
+0047  8A 27				mov		ah,[bx]
+0049  8A 47 01				mov		al,0x1[bx]
+004C  30 F6				xor		dh,dh
+004E  C7 46 C0 00 00			mov		word ptr -0x40[bp],0x0000
+0053  89 46 C6				mov		-0x3a[bp],ax
+0056  8A 47 02				mov		al,0x2[bx]
+0059  30 E4				xor		ah,ah
+005B  30 D2				xor		dl,dl
+005D  B9 08 00				mov		cx,0x0008
+0060				L$109:
+0060  D1 E0				shl		ax,0x01
+0062  D1 D2				rcl		dx,0x01
+0064  E2 FA				loop		L$109
+0066  8B 4E C0				mov		cx,-0x40[bp]
+0069  09 C1				or		cx,ax
+006B  0B 56 C6				or		dx,-0x3a[bp]
+006E  8A 47 03				mov		al,0x3[bx]
+0071  30 E4				xor		ah,ah
+0073  09 C8				or		ax,cx
+0075  89 82 B4 FE			mov		-0x14c[bp+si],ax
+0079  89 92 B6 FE			mov		-0x14a[bp+si],dx
+007D  47				inc		di
+007E  83 FF 10				cmp		di,0x0010
+0081  72 B8				jb		L$108
+0083  C7 46 F0 10 00			mov		word ptr -0x10[bp],0x0010
+0088				L$110:
+0088  8B 76 F0				mov		si,-0x10[bp]
+008B  D1 E6				shl		si,0x01
+008D  D1 E6				shl		si,0x01
+008F  8B 82 AC FE			mov		ax,-0x154[bp+si]
+0093  89 46 EC				mov		-0x14[bp],ax
+0096  8B 82 AE FE			mov		ax,-0x152[bp+si]
+009A  89 46 FA				mov		-0x6[bp],ax
+009D  8B 46 EC				mov		ax,-0x14[bp]
+00A0  8B 56 FA				mov		dx,-0x6[bp]
+00A3  B9 0F 00				mov		cx,0x000f
+00A6				L$111:
+00A6  D1 E0				shl		ax,0x01
+00A8  D1 D2				rcl		dx,0x01
+00AA  E2 FA				loop		L$111
+00AC  8B 5E FA				mov		bx,-0x6[bp]
+00AF  D1 EB				shr		bx,0x01
+00B1  09 C3				or		bx,ax
+00B3  89 5E C0				mov		-0x40[bp],bx
+00B6  8B 46 EC				mov		ax,-0x14[bp]
+00B9  8B 7E FA				mov		di,-0x6[bp]
+00BC  B9 0D 00				mov		cx,0x000d
+00BF				L$112:
+00BF  D1 E0				shl		ax,0x01
+00C1  D1 D7				rcl		di,0x01
+00C3  E2 FA				loop		L$112
+00C5  B1 03				mov		cl,0x03
+00C7  8B 5E FA				mov		bx,-0x6[bp]
+00CA  D3 EB				shr		bx,cl
+00CC  09 D8				or		ax,bx
+00CE  8B 5E C0				mov		bx,-0x40[bp]
+00D1  31 C3				xor		bx,ax
+00D3  31 D7				xor		di,dx
+00D5  8B 46 EC				mov		ax,-0x14[bp]
+00D8  8B 56 FA				mov		dx,-0x6[bp]
+00DB  B9 0A 00				mov		cx,0x000a
+00DE				L$113:
+00DE  D1 EA				shr		dx,0x01
+00E0  D1 D8				rcr		ax,0x01
+00E2  E2 FA				loop		L$113
+00E4  31 D8				xor		ax,bx
+00E6  31 FA				xor		dx,di
+00E8  8B 9A 98 FE			mov		bx,-0x168[bp+si]
+00EC  01 C3				add		bx,ax
+00EE  89 5E C8				mov		-0x38[bp],bx
+00F1  8B 82 9A FE			mov		ax,-0x166[bp+si]
+00F5  11 D0				adc		ax,dx
+00F7  89 46 D0				mov		-0x30[bp],ax
+00FA  8B 9A 78 FE			mov		bx,-0x188[bp+si]
+00FE  8B BA 7A FE			mov		di,-0x186[bp+si]
+0102  B1 09				mov		cl,0x09
+0104  89 D8				mov		ax,bx
+0106  D3 E0				shl		ax,cl
+0108  89 46 C6				mov		-0x3a[bp],ax
+010B  89 D8				mov		ax,bx
+010D  89 FA				mov		dx,di
+010F  B9 07 00				mov		cx,0x0007
+0112				L$114:
+0112  D1 EA				shr		dx,0x01
+0114  D1 D8				rcr		ax,0x01
+0116  E2 FA				loop		L$114
+0118  89 46 C2				mov		-0x3e[bp],ax
+011B  8B 46 C6				mov		ax,-0x3a[bp]
+011E  09 D0				or		ax,dx
+0120  89 46 C6				mov		-0x3a[bp],ax
+0123  89 D8				mov		ax,bx
+0125  89 FA				mov		dx,di
+0127  B9 0E 00				mov		cx,0x000e
+012A				L$115:
+012A  D1 E0				shl		ax,0x01
+012C  D1 D2				rcl		dx,0x01
+012E  E2 FA				loop		L$115
+0130  89 F9				mov		cx,di
+0132  D1 E9				shr		cx,0x01
+0134  D1 E9				shr		cx,0x01
+0136  09 C8				or		ax,cx
+0138  8B 4E C2				mov		cx,-0x3e[bp]
+013B  31 C1				xor		cx,ax
+013D  89 4E CE				mov		-0x32[bp],cx
+0140  8B 46 C6				mov		ax,-0x3a[bp]
+0143  31 D0				xor		ax,dx
+0145  89 46 D4				mov		-0x2c[bp],ax
+0148  89 D8				mov		ax,bx
+014A  89 FA				mov		dx,di
+014C  B9 03 00				mov		cx,0x0003
+014F				L$116:
+014F  D1 EA				shr		dx,0x01
+0151  D1 D8				rcr		ax,0x01
+0153  E2 FA				loop		L$116
+0155  33 46 CE				xor		ax,-0x32[bp]
+0158  33 56 D4				xor		dx,-0x2c[bp]
+015B  03 46 C8				add		ax,-0x38[bp]
+015E  13 56 D0				adc		dx,-0x30[bp]
+0161  03 82 74 FE			add		ax,-0x18c[bp+si]
+0165  13 92 76 FE			adc		dx,-0x18a[bp+si]
+0169  89 82 B4 FE			mov		-0x14c[bp+si],ax
+016D  89 92 B6 FE			mov		-0x14a[bp+si],dx
+0171  FF 46 F0				inc		word ptr -0x10[bp]
+0174  83 7E F0 40			cmp		word ptr -0x10[bp],0x0040
+0178  73 03				jae		L$117
+017A  E9 0B FF				jmp		L$110
+017D				L$117:
+017D  8B 9E B2 FE			mov		bx,-0x14e[bp]
+0181  8B 1F				mov		bx,[bx]
+0183  8B B6 B2 FE			mov		si,-0x14e[bp]
+0187  8B 44 02				mov		ax,0x2[si]
+018A  89 46 FE				mov		-0x2[bp],ax
+018D  8B 44 04				mov		ax,0x4[si]
+0190  89 46 F6				mov		-0xa[bp],ax
+0193  8B 44 06				mov		ax,0x6[si]
+0196  89 46 F2				mov		-0xe[bp],ax
+0199  8B 44 08				mov		ax,0x8[si]
+019C  89 46 F8				mov		-0x8[bp],ax
+019F  8B 44 0A				mov		ax,0xa[si]
+01A2  89 46 F4				mov		-0xc[bp],ax
+01A5  8B 44 0C				mov		ax,0xc[si]
+01A8  89 46 DC				mov		-0x24[bp],ax
+01AB  8B 44 0E				mov		ax,0xe[si]
+01AE  89 46 DE				mov		-0x22[bp],ax
+01B1  8B 74 10				mov		si,0x10[si]
+01B4  8B BE B2 FE			mov		di,-0x14e[bp]
+01B8  8B 45 12				mov		ax,0x12[di]
+01BB  89 46 FC				mov		-0x4[bp],ax
+01BE  8B 45 14				mov		ax,0x14[di]
+01C1  89 46 E4				mov		-0x1c[bp],ax
+01C4  8B 45 16				mov		ax,0x16[di]
+01C7  89 46 EA				mov		-0x16[bp],ax
+01CA  8B 45 18				mov		ax,0x18[di]
+01CD  89 46 E6				mov		-0x1a[bp],ax
+01D0  8B 45 1A				mov		ax,0x1a[di]
+01D3  89 46 E8				mov		-0x18[bp],ax
+01D6  8B 55 1C				mov		dx,0x1c[di]
+01D9  8B 45 1E				mov		ax,0x1e[di]
+01DC  C7 46 EE 00 00			mov		word ptr -0x12[bp],0x0000
+01E1				L$118:
+01E1  B1 0A				mov		cl,0x0a
+01E3  89 F7				mov		di,si
+01E5  D3 E7				shl		di,cl
+01E7  89 76 B8				mov		-0x48[bp],si
+01EA  8B 4E FC				mov		cx,-0x4[bp]
+01ED  89 4E BA				mov		-0x46[bp],cx
+01F0  B9 06 00				mov		cx,0x0006
+01F3				L$119:
+01F3  D1 6E BA				shr		word ptr -0x46[bp],0x01
+01F6  D1 5E B8				rcr		word ptr -0x48[bp],0x01
+01F9  E2 F8				loop		L$119
+01FB  8B 4E B8				mov		cx,-0x48[bp]
+01FE  89 4E C2				mov		-0x3e[bp],cx
+0201  8B 4E BA				mov		cx,-0x46[bp]
+0204  09 F9				or		cx,di
+0206  89 4E C6				mov		-0x3a[bp],cx
+0209  B1 05				mov		cl,0x05
+020B  89 F7				mov		di,si
+020D  D3 E7				shl		di,cl
+020F  89 76 B8				mov		-0x48[bp],si
+0212  8B 4E FC				mov		cx,-0x4[bp]
+0215  89 4E BA				mov		-0x46[bp],cx
+0218  B9 0B 00				mov		cx,0x000b
+021B				L$120:
+021B  D1 6E BA				shr		word ptr -0x46[bp],0x01
+021E  D1 5E B8				rcr		word ptr -0x48[bp],0x01
+0221  E2 F8				loop		L$120
+0223  8B 4E B8				mov		cx,-0x48[bp]
+0226  89 4E C0				mov		-0x40[bp],cx
+0229  8B 4E BA				mov		cx,-0x46[bp]
+022C  09 F9				or		cx,di
+022E  8B 7E C2				mov		di,-0x3e[bp]
+0231  33 7E C0				xor		di,-0x40[bp]
+0234  89 7E CA				mov		-0x36[bp],di
+0237  8B 7E C6				mov		di,-0x3a[bp]
+023A  31 CF				xor		di,cx
+023C  89 7E D6				mov		-0x2a[bp],di
+023F  89 76 B8				mov		-0x48[bp],si
+0242  8B 4E FC				mov		cx,-0x4[bp]
+0245  89 4E BA				mov		-0x46[bp],cx
+0248  B9 07 00				mov		cx,0x0007
+024B				L$121:
+024B  D1 66 B8				shl		word ptr -0x48[bp],0x01
+024E  D1 56 BA				rcl		word ptr -0x46[bp],0x01
+0251  E2 F8				loop		L$121
+0253  B1 09				mov		cl,0x09
+0255  8B 7E FC				mov		di,-0x4[bp]
+0258  D3 EF				shr		di,cl
+025A  89 F9				mov		cx,di
+025C  0B 4E B8				or		cx,-0x48[bp]
+025F  8B 7E CA				mov		di,-0x36[bp]
+0262  31 CF				xor		di,cx
+0264  8B 4E D6				mov		cx,-0x2a[bp]
+0267  33 4E BA				xor		cx,-0x46[bp]
+026A  01 D7				add		di,dx
+026C  89 7E C0				mov		-0x40[bp],di
+026F  89 CA				mov		dx,cx
+0271  11 C2				adc		dx,ax
+0273  89 F0				mov		ax,si
+0275  F7 D0				not		ax
+0277  8B 4E FC				mov		cx,-0x4[bp]
+027A  F7 D1				not		cx
+027C  8B 7E E6				mov		di,-0x1a[bp]
+027F  21 C7				and		di,ax
+0281  8B 46 E8				mov		ax,-0x18[bp]
+0284  21 C8				and		ax,cx
+0286  89 46 C2				mov		-0x3e[bp],ax
+0289  8B 4E E4				mov		cx,-0x1c[bp]
+028C  21 F1				and		cx,si
+028E  8B 46 FC				mov		ax,-0x4[bp]
+0291  23 46 EA				and		ax,-0x16[bp]
+0294  31 F9				xor		cx,di
+0296  33 46 C2				xor		ax,-0x3e[bp]
+0299  03 4E C0				add		cx,-0x40[bp]
+029C  11 D0				adc		ax,dx
+029E  8B 7E EE				mov		di,-0x12[bp]
+02A1  D1 E7				shl		di,0x01
+02A3  D1 E7				shl		di,0x01
+02A5  8B 95 00 00			mov		dx,long unsigned const __near picosha2::detail::add_constant[][di]
+02A9  01 CA				add		dx,cx
+02AB  13 85 02 00			adc		ax,long unsigned const __near picosha2::detail::add_constant[]+0x2[di]
+02AF  8B 8B B4 FE			mov		cx,-0x14c[bp+di]
+02B3  01 D1				add		cx,dx
+02B5  89 4E E0				mov		-0x20[bp],cx
+02B8  8B 93 B6 FE			mov		dx,-0x14a[bp+di]
+02BC  11 C2				adc		dx,ax
+02BE  89 56 E2				mov		-0x1e[bp],dx
+02C1  B1 0E				mov		cl,0x0e
+02C3  89 D8				mov		ax,bx
+02C5  D3 E0				shl		ax,cl
+02C7  89 46 C6				mov		-0x3a[bp],ax
+02CA  89 D8				mov		ax,bx
+02CC  8B 56 FE				mov		dx,-0x2[bp]
+02CF  D1 EA				shr		dx,0x01
+02D1  D1 D8				rcr		ax,0x01
+02D3  D1 EA				shr		dx,0x01
+02D5  D1 D8				rcr		ax,0x01
+02D7  89 46 C0				mov		-0x40[bp],ax
+02DA  8B 46 C6				mov		ax,-0x3a[bp]
+02DD  09 D0				or		ax,dx
+02DF  89 46 C2				mov		-0x3e[bp],ax
+02E2  B1 03				mov		cl,0x03
+02E4  89 DF				mov		di,bx
+02E6  D3 E7				shl		di,cl
+02E8  89 D8				mov		ax,bx
+02EA  8B 56 FE				mov		dx,-0x2[bp]
+02ED  B9 0D 00				mov		cx,0x000d
+02F0				L$122:
+02F0  D1 EA				shr		dx,0x01
+02F2  D1 D8				rcr		ax,0x01
+02F4  E2 FA				loop		L$122
+02F6  09 FA				or		dx,di
+02F8  8B 4E C0				mov		cx,-0x40[bp]
+02FB  31 C1				xor		cx,ax
+02FD  89 4E CC				mov		-0x34[bp],cx
+0300  8B 46 C2				mov		ax,-0x3e[bp]
+0303  31 D0				xor		ax,dx
+0305  89 46 D2				mov		-0x2e[bp],ax
+0308  89 D8				mov		ax,bx
+030A  8B 56 FE				mov		dx,-0x2[bp]
+030D  B9 0A 00				mov		cx,0x000a
+0310				L$123:
+0310  D1 E0				shl		ax,0x01
+0312  D1 D2				rcl		dx,0x01
+0314  E2 FA				loop		L$123
+0316  B1 06				mov		cl,0x06
+0318  8B 7E FE				mov		di,-0x2[bp]
+031B  D3 EF				shr		di,cl
+031D  09 F8				or		ax,di
+031F  8B 4E CC				mov		cx,-0x34[bp]
+0322  31 C1				xor		cx,ax
+0324  89 4E BC				mov		-0x44[bp],cx
+0327  8B 46 D2				mov		ax,-0x2e[bp]
+032A  31 D0				xor		ax,dx
+032C  89 46 C4				mov		-0x3c[bp],ax
+032F  8B 56 F6				mov		dx,-0xa[bp]
+0332  21 DA				and		dx,bx
+0334  8B 46 FE				mov		ax,-0x2[bp]
+0337  23 46 F2				and		ax,-0xe[bp]
+033A  89 46 C2				mov		-0x3e[bp],ax
+033D  8B 46 F8				mov		ax,-0x8[bp]
+0340  21 D8				and		ax,bx
+0342  8B 4E FE				mov		cx,-0x2[bp]
+0345  23 4E F4				and		cx,-0xc[bp]
+0348  31 C2				xor		dx,ax
+034A  8B 46 C2				mov		ax,-0x3e[bp]
+034D  31 C8				xor		ax,cx
+034F  89 46 C2				mov		-0x3e[bp],ax
+0352  8B 46 F6				mov		ax,-0xa[bp]
+0355  23 46 F8				and		ax,-0x8[bp]
+0358  8B 4E F2				mov		cx,-0xe[bp]
+035B  23 4E F4				and		cx,-0xc[bp]
+035E  31 D0				xor		ax,dx
+0360  33 4E C2				xor		cx,-0x3e[bp]
+0363  8B 7E BC				mov		di,-0x44[bp]
+0366  01 C7				add		di,ax
+0368  8B 46 C4				mov		ax,-0x3c[bp]
+036B  11 C8				adc		ax,cx
+036D  89 46 BE				mov		-0x42[bp],ax
+0370  8B 56 E6				mov		dx,-0x1a[bp]
+0373  8B 46 E8				mov		ax,-0x18[bp]
+0376  8B 4E E4				mov		cx,-0x1c[bp]
+0379  89 4E E6				mov		-0x1a[bp],cx
+037C  8B 4E EA				mov		cx,-0x16[bp]
+037F  89 4E E8				mov		-0x18[bp],cx
+0382  89 76 E4				mov		-0x1c[bp],si
+0385  8B 4E FC				mov		cx,-0x4[bp]
+0388  89 4E EA				mov		-0x16[bp],cx
+038B  8B 4E DC				mov		cx,-0x24[bp]
+038E  03 4E E0				add		cx,-0x20[bp]
+0391  89 4E D8				mov		-0x28[bp],cx
+0394  8B 4E DE				mov		cx,-0x22[bp]
+0397  13 4E E2				adc		cx,-0x1e[bp]
+039A  89 4E DA				mov		-0x26[bp],cx
+039D  8B 76 D8				mov		si,-0x28[bp]
+03A0  89 4E FC				mov		-0x4[bp],cx
+03A3  8B 4E F8				mov		cx,-0x8[bp]
+03A6  89 4E DC				mov		-0x24[bp],cx
+03A9  8B 4E F4				mov		cx,-0xc[bp]
+03AC  89 4E DE				mov		-0x22[bp],cx
+03AF  8B 4E F6				mov		cx,-0xa[bp]
+03B2  89 4E F8				mov		-0x8[bp],cx
+03B5  8B 4E F2				mov		cx,-0xe[bp]
+03B8  89 4E F4				mov		-0xc[bp],cx
+03BB  89 5E F6				mov		-0xa[bp],bx
+03BE  8B 5E FE				mov		bx,-0x2[bp]
+03C1  89 5E F2				mov		-0xe[bp],bx
+03C4  03 7E E0				add		di,-0x20[bp]
+03C7  8B 4E E2				mov		cx,-0x1e[bp]
+03CA  13 4E BE				adc		cx,-0x42[bp]
+03CD  89 FB				mov		bx,di
+03CF  89 4E FE				mov		-0x2[bp],cx
+03D2  FF 46 EE				inc		word ptr -0x12[bp]
+03D5  83 7E EE 40			cmp		word ptr -0x12[bp],0x0040
+03D9  73 03				jae		L$124
+03DB  E9 03 FE				jmp		L$118
+03DE				L$124:
+03DE  8B 9E B2 FE			mov		bx,-0x14e[bp]
+03E2  01 3F				add		[bx],di
+03E4  11 4F 02				adc		0x2[bx],cx
+03E7  8B 5E F6				mov		bx,-0xa[bp]
+03EA  8B B6 B2 FE			mov		si,-0x14e[bp]
+03EE  01 5C 04				add		0x4[si],bx
+03F1  8B 5E F2				mov		bx,-0xe[bp]
+03F4  11 5C 06				adc		0x6[si],bx
+03F7  8B 5E F8				mov		bx,-0x8[bp]
+03FA  01 5C 08				add		0x8[si],bx
+03FD  8B 5E F4				mov		bx,-0xc[bp]
+0400  11 5C 0A				adc		0xa[si],bx
+0403  8B 5E DC				mov		bx,-0x24[bp]
+0406  01 5C 0C				add		0xc[si],bx
+0409  8B 5E DE				mov		bx,-0x22[bp]
+040C  11 5C 0E				adc		0xe[si],bx
+040F  8B 5E D8				mov		bx,-0x28[bp]
+0412  01 5C 10				add		0x10[si],bx
+0415  8B 5E DA				mov		bx,-0x26[bp]
+0418  11 5C 12				adc		0x12[si],bx
+041B  8B 5E E4				mov		bx,-0x1c[bp]
+041E  01 5C 14				add		0x14[si],bx
+0421  8B 5E EA				mov		bx,-0x16[bp]
+0424  11 5C 16				adc		0x16[si],bx
+0427  8B 5E E6				mov		bx,-0x1a[bp]
+042A  01 5C 18				add		0x18[si],bx
+042D  8B 5E E8				mov		bx,-0x18[bp]
+0430  11 5C 1A				adc		0x1a[si],bx
+0433  01 54 1C				add		0x1c[si],dx
+0436  11 44 1E				adc		0x1e[si],ax
+0439  31 C0				xor		ax,ax
+043B				L$125:
+043B  40				inc		ax
+043C  3D 08 00				cmp		ax,0x0008
+043F  72 FA				jb		L$125
+0441  89 EC				mov		sp,bp
+0443  5D				pop		bp
+0444  5F				pop		di
+0445  5E				pop		si
+0446  59				pop		cx
+0447  C3				ret
+
+Routine Size: 1096 bytes,    Routine Base: W?hash256_block$::1NPNUL1NPNUC:detail$:picosha2$N(PNULPNUCPNUC)V + 0000
+
+No disassembly errors
